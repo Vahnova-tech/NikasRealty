@@ -309,11 +309,11 @@ const Properties = ({ headingAsPage = false }: { headingAsPage?: boolean }) => {
               return (
                 <Card
                   key={property.id}
-                  className="overflow-hidden group hover:shadow-luxury transition-smooth cursor-pointer"
+                  className="overflow-hidden group hover:shadow-luxury transition-smooth cursor-pointer flex flex-col h-full"
                   onClick={() => navigate(`/properties/${property.id}`)}
                 >
                   {/* Image */}
-                  <div className="relative h-64 overflow-hidden bg-muted">
+                  <div className="relative h-64 overflow-hidden bg-muted flex-shrink-0">
                     <img
                       src={mainImage}
                       alt={property.title}
@@ -364,7 +364,7 @@ const Properties = ({ headingAsPage = false }: { headingAsPage?: boolean }) => {
                   </div>
 
                   {/* Content */}
-                  <CardHeader>
+                  <CardHeader className="flex-shrink-0">
                     <div className="flex flex-col gap-2 mb-2">
                       <div className="flex flex-wrap gap-2">
                         {property.status && (
@@ -415,7 +415,7 @@ const Properties = ({ headingAsPage = false }: { headingAsPage?: boolean }) => {
                     </div>
                   </CardHeader>
 
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-4 flex-grow">
                     <p className="text-muted-foreground text-xs line-clamp-2">{property.description}</p>
 
                     {/* Property Details */}
@@ -460,7 +460,7 @@ const Properties = ({ headingAsPage = false }: { headingAsPage?: boolean }) => {
                     </div>
                   </CardContent>
 
-                  <CardFooter>
+                  <CardFooter className="flex-shrink-0">
                     <Button
                       className="w-full gradient-gold text-secondary font-semibold hover:scale-105 transition-smooth"
                       onClick={(e) => {
