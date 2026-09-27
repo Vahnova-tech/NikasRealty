@@ -317,7 +317,7 @@ const Properties = ({ headingAsPage = false }: { headingAsPage?: boolean }) => {
                     <img
                       src={mainImage}
                       alt={property.title}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-smooth"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-smooth"
                       loading="lazy"
                       onError={(e) => {
                         const img = e.target as HTMLImageElement;
