@@ -1,6 +1,7 @@
 {
   "name": "Nikas Realty",
   "short_name": "Nikas Realty",
+  "description": "Apartments, houses and luxury homes for sale and rent in Nairobi, Kenya.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,20 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { APP_CONFIG } from '@/config/constants';
+import SEO from '@/components/SEO';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-
-  // Set generic page title
-  useEffect(() => {
-    document.title = 'Login - NikasRealty';
-    return () => {
-      document.title = 'Nikas Realty - We Turn Dreams Into Reality';
-    };
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +67,12 @@ const AdminLogin = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-secondary p-4">
+      <SEO
+        title="Sign in | Nikas Realty"
+        description="Staff sign-in for Nikas Realty."
+        path="/admin/login"
+        noindex
+      />
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">

@@ -27,6 +27,7 @@ import { getPropertyImageUrl } from "@/utils/imageUtils";
 import { PROPERTY_IMAGE_FALLBACK } from "@/constants/propertyImages";
 import { parsePrice } from "@/data/properties";
 import { PROPERTY_CONFIG } from "@/config/constants";
+import SEO from "@/components/SEO";
 
 
 const RentalsPage = () => {
@@ -103,6 +104,19 @@ const RentalsPage = () => {
 
     return (
         <div className="min-h-screen">
+            <SEO
+                title="Apartments & Houses for Rent in Nairobi, Kenya | Nikas Realty"
+                description="Find apartments and houses for rent in Nairobi, Kenya. Browse rental listings in Westlands, Kilimani, Kileleshwa, Langata, Syokimau and other neighbourhoods with Nikas Realty."
+                path="/rentals"
+                jsonLd={{
+                    "@context": "https://schema.org",
+                    "@type": "CollectionPage",
+                    name: "Apartments and houses for rent in Kenya",
+                    description:
+                        "Find apartments and houses for rent in Nairobi, Kenya.",
+                    url: "https://www.nikasrealtor.com/rentals",
+                }}
+            />
             <Navbar />
 
             <section className="py-20 lg:py-32 bg-muted/30">
@@ -110,11 +124,11 @@ const RentalsPage = () => {
                     {/* Header */}
                     <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
                         <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-                            Properties for <span className="text-primary">Rent</span>
+                            Apartments &amp; Houses for <span className="text-primary">Rent in Kenya</span>
                         </h1>
                         <div className="h-1 w-20 gradient-gold mx-auto" />
                         <p className="text-lg text-muted-foreground">
-                            Browse our collection of premium rental properties across Kenya
+                            Browse rental apartments, maisonettes and homes across Nairobi and Kenya
                         </p>
                     </div>
 

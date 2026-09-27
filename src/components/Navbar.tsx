@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import logo from "@/assets/images/logo.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "next-themes";
@@ -20,7 +19,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll to section after navigation
   useEffect(() => {
     if (location.hash) {
       const element = document.querySelector(location.hash);
@@ -33,39 +31,29 @@ const Navbar = () => {
   }, [location]);
 
   const navLinks = [
-    { name: "Home", href: "#home", type: "anchor" },
-    { name: "About Us", href: "#about", type: "anchor" },
-    { name: "Sales", href: "#sales", type: "anchor" },
-    { name: "Rentals", href: "/rentals", type: "route" },
-    { name: "Services", href: "#services", type: "anchor" },
-    { name: "Media", href: "/media", type: "route" },
-    { name: "Blog", href: "/blog", type: "route" },
-    { name: "Contact", href: "#contact", type: "anchor" },
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/#about" },
+    { name: "Sales", href: "/#sales" },
+    { name: "Rentals", href: "/rentals" },
+    { name: "Services", href: "/#services" },
+    { name: "Media", href: "/media" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contact", href: "/#contact" },
   ];
 
-  const handleAnchorClick = (href: string) => {
+  const handleNavClick = (href: string) => {
     setIsOpen(false);
-    // If we're not on the home page, navigate to home first, then scroll
-    if (location.pathname !== "/") {
-      navigate("/");
-      // Wait for navigation to complete, then scroll
-      setTimeout(() => {
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 300);
-    } else {
-      // If we're on home page, just scroll
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+    if (href.startsWith("/#")) {
+      const hash = href.slice(1);
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+      } else {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
       }
     }
-  };
-
-  const goToAdminLogin = () => {
-    navigate("/admin/login");
   };
 
   return (
@@ -76,42 +64,30 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-24">
-          {/* Logo */}
           <Link
             to="/"
             className="flex items-center py-2 pr-2 group"
             onClick={() => setIsOpen(false)}
-            aria-label="Nikas Realty home"
+            aria-label="Nikas Realty home — apartments and homes in Kenya"
           >
             <img
               src={logo}
-              alt="Nikas Realty"
+              alt="Nikas Realty — apartments and homes for sale and rent in Kenya"
               className="h-16 sm:h-20 md:h-24 w-auto object-contain"
               style={{ mixBlendMode: 'normal', filter: 'brightness(1.3)' }}
             />
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              link.type === "route" ? (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="text-foreground hover:text-primary transition-smooth font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ) : (
-                <button
-                  key={link.name}
-                  onClick={() => handleAnchorClick(link.href)}
-                  className="text-foreground hover:text-primary transition-smooth font-medium"
-                >
-                  {link.name}
-                </button>
-              )
+              <Link
+                key={link.name}
+                to={link.href}
+                className="text-foreground hover:text-primary transition-smooth font-medium"
+                onClick={() => handleNavClick(link.href)}
+              >
+                {link.name}
+              </Link>
             ))}
             <button
               aria-label="Toggle theme"
@@ -122,46 +98,29 @@ const Navbar = () => {
               <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </button>
-            <Button
-              onClick={goToAdminLogin}
-              className="gradient-gold text-secondary font-semibold shadow-luxury hover:scale-105 transition-smooth"
-            >
-              Login
-            </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="md:hidden text-foreground"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden bg-background border-t border-border">
             <div className="flex flex-col space-y-4 py-6">
               {navLinks.map((link) => (
-                link.type === "route" ? (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className="text-foreground hover:text-primary transition-smooth font-medium text-left px-4"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                ) : (
-                  <button
-                    key={link.name}
-                    onClick={() => handleAnchorClick(link.href)}
-                    className="text-foreground hover:text-primary transition-smooth font-medium text-left px-4"
-                  >
-                    {link.name}
-                  </button>
-                )
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="text-foreground hover:text-primary transition-smooth font-medium text-left px-4"
+                  onClick={() => handleNavClick(link.href)}
+                >
+                  {link.name}
+                </Link>
               ))}
               <div className="px-4">
                 <button
@@ -173,17 +132,6 @@ const Navbar = () => {
                   <Moon className="h-5 w-5 mr-2 absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                   Toggle theme
                 </button>
-              </div>
-              <div className="px-4">
-                <Button
-                  onClick={() => {
-                    goToAdminLogin();
-                    setIsOpen(false);
-                  }}
-                  className="w-full gradient-gold text-secondary font-semibold shadow-luxury"
-                >
-                  Login
-                </Button>
               </div>
             </div>
           </div>

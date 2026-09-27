@@ -1,8 +1,9 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import SEO from '@/components/SEO';
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, loading, user } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
   if (import.meta.env.DEV) {
     // Don't log user object - only log authentication state
@@ -28,6 +29,16 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     console.log('Authenticated, rendering protected content');
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <SEO
+        title="Admin | Nikas Realty"
+        description="Nikas Realty administration."
+        path="/admin"
+        noindex
+      />
+      {children}
+    </>
+  );
 };
 

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { mediaService, type PropertyMedia } from '@/services/firestore/media';
 import { getYouTubeEmbedUrl } from '@/utils/youtubeUtils';
+import SEO from '@/components/SEO';
 
 const MediaWatchPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,6 +37,11 @@ const MediaWatchPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen">
+        <SEO
+          title="Property Video Tour | Nikas Realty"
+          description="Watch property video tours of apartments and homes in Kenya with Nikas Realty."
+          path={id ? `/media/${id}` : "/media"}
+        />
         <Navbar />
         <div className="container mx-auto flex justify-center px-4 py-32 lg:px-8">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
@@ -48,6 +54,12 @@ const MediaWatchPage = () => {
   if (!media) {
     return (
       <div className="min-h-screen">
+        <SEO
+          title="Video Not Found | Nikas Realty"
+          description="This property video is no longer available. Browse more apartment and home tours from Nikas Realty."
+          path="/media"
+          noindex
+        />
         <Navbar />
         <div className="container mx-auto px-4 py-32 text-center lg:px-8">
           <h1 className="mb-4 text-2xl font-semibold">Video not found</h1>
@@ -62,6 +74,14 @@ const MediaWatchPage = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title={`${media.title} | Property Video Tour | Nikas Realty`}
+        description={
+          media.description?.trim() ||
+          `Watch this property video tour from Nikas Realty — apartments and homes in Kenya.`
+        }
+        path={`/media/${media.id || id}`}
+      />
       <Navbar />
       <main className="container mx-auto px-4 pb-16 pt-28 lg:px-8">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">

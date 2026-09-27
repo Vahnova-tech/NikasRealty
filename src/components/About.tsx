@@ -102,7 +102,7 @@ const About = () => {
             </div>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              At Nikas Realty, we specialize in connecting clients to elegant, modern, and luxurious homes across Kenya. Our team offers professional advice, customized property solutions, and a seamless buying experience.
+              At Nikas Realty, we help clients find apartments, houses and luxury homes for sale and rent in Nairobi and across Kenya. Our team offers professional advice, customized property solutions, and a seamless buying and renting experience.
             </p>
 
             {/* Stats Grid */}

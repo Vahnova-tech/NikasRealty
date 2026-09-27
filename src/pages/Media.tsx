@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MediaVideoCard from '@/components/MediaVideoCard';
 import { mediaService, type PropertyMedia } from '@/services/firestore/media';
+import SEO from '@/components/SEO';
 
 const MediaPage = () => {
   const [videos, setVideos] = useState<PropertyMedia[]>([]);
@@ -27,14 +28,19 @@ const MediaPage = () => {
 
   return (
     <>
+      <SEO
+        title="Property Video Tours in Kenya | Apartments & Homes | Nikas Realty"
+        description="Watch video tours of apartments and homes for sale and rent in Nairobi and across Kenya from Nikas Realty."
+        path="/media"
+      />
       <Navbar />
       <section className="min-h-screen bg-background py-20 pt-32">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mb-16 text-center">
-            <h1 className="mb-3 text-5xl font-bold text-foreground">Property Media</h1>
+            <h1 className="mb-3 text-5xl font-bold text-foreground">Apartment &amp; Home Video Tours in Kenya</h1>
             <div className="mx-auto mb-3 h-1 w-24 gradient-gold" />
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-              Watch video tours of our featured properties and explore homes across Kenya with Nikas Realty.
+              Watch video tours of apartments and homes for sale and rent across Kenya with Nikas Realty.
             </p>
           </div>
 

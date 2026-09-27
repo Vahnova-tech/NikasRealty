@@ -16,6 +16,9 @@ import { descriptionToParagraphs, contentToParagraphs } from "@/utils/text";
 import { formatPostedDate } from "@/utils/dateUtils";
 import { getPropertyAmenities } from "@/utils/propertyUtils";
 import { hasAvailableUnitsData } from "@/utils/propertyFormUtils";
+import SEO from "@/components/SEO";
+import { SITE_URL, absoluteUrl } from "@/config/seo";
+import { parsePrice } from "@/data/properties";
 
 const PropertyDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -115,6 +118,11 @@ const PropertyDetailsPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen">
+        <SEO
+          title="Property Listing | Nikas Realty"
+          description="View this apartment or home listing with Nikas Realty in Kenya."
+          path={id ? `/properties/${id}` : "/properties"}
+        />
         <Navbar />
         <div className="container mx-auto px-4 lg:px-8 pt-28 pb-24 flex justify-center">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
@@ -127,6 +135,12 @@ const PropertyDetailsPage = () => {
   if (!property) {
     return (
       <div className="min-h-screen">
+        <SEO
+          title="Property Not Found | Nikas Realty"
+          description="This property listing is no longer available. Browse apartments and homes for sale and rent in Kenya with Nikas Realty."
+          path="/properties"
+          noindex
+        />
         <Navbar />
         <div className="container mx-auto px-4 lg:px-8 pt-28 pb-24 text-center">
           <h1 className="text-2xl font-semibold mb-4">Property not found</h1>
@@ -138,9 +152,58 @@ const PropertyDetailsPage = () => {
   }
 
   const isRental = property.status === 'for-rent' || property.status === 'For Rent';
+  const priceNum = typeof property.price === "number" ? property.price : parsePrice(String(property.price || 0));
+  const listingImage = displayImages[0]?.startsWith("http")
+    ? displayImages[0]
+    : absoluteUrl(displayImages[0] || "/logo.png");
+  const listingDescription =
+    (property.description || "").replace(/\s+/g, " ").trim().slice(0, 155) ||
+    `${property.title} — ${property.type} ${isRental ? "for rent" : "for sale"} in ${property.location}, Kenya.`;
+  const listingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: property.title,
+    description: listingDescription,
+    url: absoluteUrl(`/properties/${property.id || id}`),
+    image: listingImage,
+    datePosted: property.createdAt ? new Date(property.createdAt).toISOString() : undefined,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: property.location,
+      addressCountry: "KE",
+    },
+    numberOfRooms: property.bedrooms,
+    floorSize: property.size
+      ? {
+          "@type": "QuantitativeValue",
+          name: property.size,
+        }
+      : undefined,
+    offers: {
+      "@type": "Offer",
+      price: priceNum || undefined,
+      priceCurrency: "KES",
+      availability: "https://schema.org/InStock",
+      businessFunction: isRental
+        ? "https://schema.org/LeaseOut"
+        : "https://schema.org/Sell",
+    },
+    seller: {
+      "@type": "RealEstateAgent",
+      name: "Nikas Realty",
+      url: SITE_URL,
+    },
+  };
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title={`${property.title} in ${property.location} | ${isRental ? "For Rent" : "For Sale"} | Nikas Realty`}
+        description={listingDescription}
+        path={`/properties/${property.id || id}`}
+        image={listingImage}
+        jsonLd={listingJsonLd}
+      />
       <Navbar />
       <main className="container mx-auto px-4 lg:px-8 pt-28 pb-10">
         <div className="mb-4 flex justify-end">

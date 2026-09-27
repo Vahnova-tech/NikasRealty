@@ -1,23 +1,18 @@
 import { Instagram, Video, Phone, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import NewsletterSubscribe from "@/components/NewsletterSubscribe";
 
 const Footer = () => {
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const quickLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About Us", href: "#about" },
-    { name: "Sales", href: "#sales" },
-    { name: "Rentals", href: "/rentals" },
-    { name: "Services", href: "#services" },
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/#about" },
+    { name: "Properties for Sale", href: "/properties" },
+    { name: "Apartments for Rent", href: "/rentals" },
+    { name: "Services", href: "/#services" },
     { name: "Media", href: "/media" },
-    { name: "Contact", href: "#contact" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   const socialLinks = [
@@ -54,7 +49,7 @@ const Footer = () => {
               We Turn Dreams Into Reality
             </p>
             <p className="text-white/70 text-sm">
-              Your trusted partner in finding elegant, modern, and luxurious homes across Kenya.
+              Your trusted partner for apartments, houses and luxury homes for sale and rent in Nairobi and across Kenya.
             </p>
           </div>
 
@@ -64,12 +59,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <button
-                    onClick={() => scrollToSection(link.href)}
+                  <Link
+                    to={link.href}
                     className="text-white/70 hover:text-primary transition-smooth"
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -79,13 +74,36 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-6 text-primary">Property Types</h3>
             <ul className="space-y-3">
-              <li className="text-white/70">Luxury Mansion</li>
-              <li className="text-white/70">Modern Apartment</li>
-              <li className="text-white/70">Premium Maisonette</li>
-              <li className="text-white/70">Executive Bungalow</li>
-              <li className="text-white/70">Commercial Land</li>
-              <li className="text-white/70">Town House</li>
-              <li className="text-white/70">Duplex</li>
+              <li>
+                <Link to="/properties" className="text-white/70 hover:text-primary transition-smooth">
+                  Apartments for sale
+                </Link>
+              </li>
+              <li>
+                <Link to="/rentals" className="text-white/70 hover:text-primary transition-smooth">
+                  Apartments for rent
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties" className="text-white/70 hover:text-primary transition-smooth">
+                  Houses &amp; maisonettes
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties" className="text-white/70 hover:text-primary transition-smooth">
+                  Luxury homes Nairobi
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties" className="text-white/70 hover:text-primary transition-smooth">
+                  Townhouses &amp; bungalows
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties" className="text-white/70 hover:text-primary transition-smooth">
+                  Off-plan properties
+                </Link>
+              </li>
             </ul>
           </div>
 

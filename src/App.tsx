@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
 import ScrollToTop from "@/components/ScrollToTop";
+import CookieConsent from "@/components/CookieConsent";
 import { useEffect } from "react";
 import { initGA, logPageView } from "@/lib/analytics";
 import Index from "./pages/Index";
@@ -79,6 +80,7 @@ const App = () => (
         <AuthProvider>
           <AnalyticsTracker />
           <ScrollToTop />
+          <CookieConsent />
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Index />} />

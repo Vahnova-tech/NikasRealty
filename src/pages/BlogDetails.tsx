@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2, Calendar, User } from "lucide-react";
 import { blogsService, type Blog } from "@/services/firestore/blogs";
+import SEO from "@/components/SEO";
 
 const BlogDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,6 +34,11 @@ const BlogDetailsPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
+        <SEO
+          title="Real Estate Article | Nikas Realty"
+          description="Read Nikas Realty insights on apartments and homes in Kenya."
+          path={id ? `/blog/${id}` : "/blog"}
+        />
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
@@ -41,6 +47,12 @@ const BlogDetailsPage = () => {
   if (!blog) {
     return (
       <div className="min-h-screen">
+        <SEO
+          title="Article Not Found | Nikas Realty"
+          description="This article is no longer available. Browse the Nikas Realty blog for Kenya real estate insights."
+          path="/blog"
+          noindex
+        />
         <Navbar />
         <div className="container mx-auto px-4 lg:px-8 py-24 text-center">
           <h1 className="text-2xl font-semibold mb-4">Blog post not found</h1>
@@ -55,6 +67,23 @@ const BlogDetailsPage = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title={`${blog.title} | Nikas Realty Blog`}
+        description={(blog.summary || blog.content || "").replace(/\s+/g, " ").trim().slice(0, 155) || `${blog.title} — Kenya real estate insights from Nikas Realty.`}
+        path={`/blog/${blog.id || id}`}
+        image={blog.image}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: blog.title,
+          description: blog.summary,
+          image: blog.image,
+          author: { "@type": "Person", name: blog.author },
+          datePublished: blog.publishedAt ? new Date(blog.publishedAt).toISOString() : undefined,
+          publisher: { "@type": "Organization", name: "Nikas Realty" },
+        }}
+      />
       <Navbar />
       <main className="container mx-auto px-4 lg:px-8 py-10">
         {/* Back Button */}

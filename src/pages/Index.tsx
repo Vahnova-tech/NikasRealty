@@ -10,10 +10,18 @@ import MortgageCalculator from "@/components/MortgageCalculator";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Calculator } from "lucide-react";
 import { useState } from "react";
+import SEO from "@/components/SEO";
+import { organizationJsonLd, websiteJsonLd, SEO_DEFAULTS } from "@/config/seo";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title={SEO_DEFAULTS.title}
+        description={SEO_DEFAULTS.description}
+        path="/"
+        jsonLd={[organizationJsonLd, websiteJsonLd]}
+      />
       <Navbar />
       <Hero />
       <About />

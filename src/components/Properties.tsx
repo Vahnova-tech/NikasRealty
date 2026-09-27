@@ -28,7 +28,8 @@ import { formatPublishedLabel } from "@/utils/dateUtils";
 import { getPropertyImageUrl } from "@/utils/imageUtils";
 import { PROPERTY_IMAGE_FALLBACK } from "@/constants/propertyImages";
 
-const Properties = () => {
+const Properties = ({ headingAsPage = false }: { headingAsPage?: boolean }) => {
+  const HeadingTag = headingAsPage ? "h1" : "h2";
   const navigate = useNavigate();
   const [allProperties, setAllProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
@@ -255,12 +256,18 @@ const Properties = () => {
         </div>
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-            Discover Your <span className="text-primary">Dream Home</span>
-          </h2>
+          <HeadingTag className="text-4xl md:text-5xl font-bold text-foreground">
+            {headingAsPage ? (
+              <>Apartments &amp; Homes for <span className="text-primary">Sale in Kenya</span></>
+            ) : (
+              <>Discover Your <span className="text-primary">Dream Home</span></>
+            )}
+          </HeadingTag>
           <div className="h-1 w-20 gradient-gold mx-auto" />
           <p className="text-lg text-muted-foreground">
-            Explore our curated selection of elegant, modern, and luxurious properties
+            {headingAsPage
+              ? "Browse apartments, houses, maisonettes and luxury properties for sale in Nairobi and across Kenya."
+              : "Explore our curated selection of apartments, houses and luxurious properties for sale and rent in Kenya."}
           </p>
         </div>
 

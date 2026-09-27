@@ -1,12 +1,35 @@
 import ReactGA from 'react-ga4';
+import { getCookieConsent } from '@/lib/cookieConsent';
 
 const TRACKING_ID = 'G-PERDJVZ0SX';
+let gaInitialized = false;
+
+const loadGtagScript = () => {
+    if (typeof document === 'undefined') return;
+    if (document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${TRACKING_ID}"]`)) {
+        return;
+    }
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${TRACKING_ID}`;
+    document.head.appendChild(script);
+};
+
+export const enableGoogleAnalytics = () => {
+    if (gaInitialized || !TRACKING_ID) return;
+    loadGtagScript();
+    initGA();
+};
 
 export const initGA = () => {
-    if (!TRACKING_ID) {
-        if (import.meta.env.DEV) {
+    if (!TRACKING_ID || gaInitialized) {
+        if (!TRACKING_ID && import.meta.env.DEV) {
             console.warn('Google Analytics tracking ID not found');
         }
+        return;
+    }
+
+    if (getCookieConsent() !== 'accepted') {
         return;
     }
 
@@ -14,13 +37,13 @@ export const initGA = () => {
         ReactGA.initialize(TRACKING_ID, {
             gaOptions: {
                 debug_mode: import.meta.env.DEV,
-                // Avoid noisy network errors when ad blockers block gtag
                 send_page_view: false,
             },
             gtagOptions: {
                 transport_type: 'beacon',
             },
         });
+        gaInitialized = true;
         if (import.meta.env.DEV) {
             console.log('Google Analytics initialized');
         }
@@ -30,13 +53,13 @@ export const initGA = () => {
 };
 
 export const logPageView = (path: string) => {
-    if (TRACKING_ID) {
+    if (TRACKING_ID && gaInitialized && getCookieConsent() === 'accepted') {
         ReactGA.send({ hitType: 'pageview', page: path });
     }
 };
 
 export const logEvent = (category: string, action: string, label?: string) => {
-    if (TRACKING_ID) {
+    if (TRACKING_ID && gaInitialized && getCookieConsent() === 'accepted') {
         ReactGA.event({
             category,
             action,
@@ -46,7 +69,7 @@ export const logEvent = (category: string, action: string, label?: string) => {
 };
 
 export const logException = (description: string, fatal = false) => {
-    if (TRACKING_ID) {
+    if (TRACKING_ID && gaInitialized && getCookieConsent() === 'accepted') {
         ReactGA.event({
             category: 'Exception',
             action: description,

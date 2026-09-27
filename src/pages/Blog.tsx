@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { blogsService, type Blog } from "@/services/firestore/blogs";
+import SEO from "@/components/SEO";
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -56,11 +57,16 @@ const Blog = () => {
 
   return (
     <>
+      <SEO
+        title="Kenya Real Estate Blog | Apartments, Homes & Market Insights | Nikas Realty"
+        description="Advice and stories about buying, selling and renting apartments and homes in Nairobi and Kenya. Market insights from Nikas Realty."
+        path="/blog"
+      />
       <Navbar />
       <section className="py-20 bg-background min-h-screen">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Latest Blog</h2>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Kenya Real Estate Blog</h1>
             <div className="h-1 w-24 mx-auto gradient-gold mb-3" />
             <p className="text-xs text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Get insights, advice, and stories about buying, selling, and investing in real estate with Nikas Realty.
